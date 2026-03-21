@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="darkreader-lock">
+    <meta name="color-scheme" content="light dark">
     <title>Roadworthiness Sticker Generator</title>
 
     <!-- Material Design Icons -->
@@ -84,12 +86,11 @@
                                placeholder="e.g., 55S-118388" required>
                     </div>
 
-                    <!-- Static Value (Read-only for now) -->
+                    <!-- Engine Capacity -->
                     <div class="form-group">
-                        <label class="form-label" for="staticValue">Value</label>
-                        <input type="text" id="staticValue" class="form-input"
-                               value="135.000" readonly>
-                        <span class="form-hint">Static value</span>
+                        <label class="form-label" for="engineCapacity">Engine Capacity (CC)</label>
+                        <input type="text" id="engineCapacity" class="form-input"
+                               placeholder="e.g., 135.000" required>
                     </div>
 
                     <!-- Generate Button -->
@@ -111,24 +112,24 @@
                         <!-- Sticker will be rendered here -->
                         <div class="sticker">
                             <div class="sticker-header">
-                                <span id="previewRegNumber">A 0 F 7 9 3 0</span>
+                                <span id="previewRegNumber">X 0 X 0 0 0 0</span>
                             </div>
                             <div class="sticker-barcode-row">
-                                <span id="previewBarcodeNumber">1162603748</span>
+                                <span id="previewBarcodeNumber">0000000000</span>
                                 <svg id="previewBarcode"></svg>
                             </div>
                             <div class="sticker-body">
                                 <div class="sticker-info">
                                     <div class="date-row">
-                                        <span><strong>From:</strong> <span id="previewFromDate">21-03-2026</span></span>
+                                        <span><strong>From:</strong> <span id="previewFromDate">DD-MM-YYYY</span></span>
                                     </div>
                                     <div class="date-row">
-                                        <span><strong>To:</strong> <span id="previewToDate">20-03-2027</span></span>
+                                        <span><strong>To:</strong> <span id="previewToDate">DD-MM-YYYY</span></span>
                                     </div>
-                                    <div id="previewModelNumber">55S400-010C</div>
-                                    <div id="previewChassisNumber">MH355S004DK117181</div>
-                                    <div id="previewEngineSerial">55S-118388</div>
-                                    <div id="previewStaticValue">135.000</div>
+                                    <div id="previewModelNumber">XXXX-XXXXX</div>
+                                    <div id="previewChassisNumber">XXXXXXXXXXXXXXXXX</div>
+                                    <div id="previewEngineSerial">XXX-XXXXXX</div>
+                                    <div id="previewEngineCapacity">000.000</div>
                                 </div>
                                 <div class="sticker-logo">
                                     <div id="garageLogo" class="garage-logo">

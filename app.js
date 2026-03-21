@@ -29,7 +29,7 @@ const toDateInput = document.getElementById('toDate');
 const modelNumberInput = document.getElementById('modelNumber');
 const chassisNumberInput = document.getElementById('chassisNumber');
 const engineSerialInput = document.getElementById('engineSerial');
-const staticValueInput = document.getElementById('staticValue');
+const engineCapacityInput = document.getElementById('engineCapacity');
 
 // Preview Elements
 const previewRegNumber = document.getElementById('previewRegNumber');
@@ -40,7 +40,7 @@ const previewToDate = document.getElementById('previewToDate');
 const previewModelNumber = document.getElementById('previewModelNumber');
 const previewChassisNumber = document.getElementById('previewChassisNumber');
 const previewEngineSerial = document.getElementById('previewEngineSerial');
-const previewStaticValue = document.getElementById('previewStaticValue');
+const previewEngineCapacity = document.getElementById('previewEngineCapacity');
 const previewGarageInfo = document.getElementById('previewGarageInfo');
 const garageLogo = document.getElementById('garageLogo');
 
@@ -96,6 +96,7 @@ function setupEventListeners() {
     modelNumberInput.addEventListener('input', updatePreview);
     chassisNumberInput.addEventListener('input', updatePreview);
     engineSerialInput.addEventListener('input', updatePreview);
+    engineCapacityInput.addEventListener('input', updatePreview);
     garageSelect.addEventListener('change', updatePreview);
 
     // Auto-uppercase for certain fields
@@ -125,18 +126,18 @@ function updatePreview() {
     const garage = garageTemplates[garageSelect.value];
 
     // Update registration number
-    const regNumber = regNumberInput.value || 'A0F7930';
+    const regNumber = regNumberInput.value || 'X0X0000';
     previewRegNumber.textContent = formatRegNumber(regNumber);
 
     // Update dates
-    previewFromDate.textContent = formatDateForDisplay(fromDateInput.value) || '21-03-2026';
-    previewToDate.textContent = formatDateForDisplay(toDateInput.value) || '20-03-2027';
+    previewFromDate.textContent = formatDateForDisplay(fromDateInput.value) || 'DD-MM-YYYY';
+    previewToDate.textContent = formatDateForDisplay(toDateInput.value) || 'DD-MM-YYYY';
 
     // Update vehicle info
-    previewModelNumber.textContent = modelNumberInput.value || '55S400-010C';
-    previewChassisNumber.textContent = chassisNumberInput.value || 'MH355S004DK117181';
-    previewEngineSerial.textContent = engineSerialInput.value || '55S-118388';
-    previewStaticValue.textContent = staticValueInput.value || '135.000';
+    previewModelNumber.textContent = modelNumberInput.value || 'XXXX-XXXXX';
+    previewChassisNumber.textContent = chassisNumberInput.value || 'XXXXXXXXXXXXXXXXX';
+    previewEngineSerial.textContent = engineSerialInput.value || 'XXX-XXXXXX';
+    previewEngineCapacity.textContent = engineCapacityInput.value || '000.000';
 
     // Update garage info
     if (garage) {
