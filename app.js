@@ -129,14 +129,20 @@ function renderTemplate(templateId) {
     }
 }
 
-// Set default dates (today and 1 year from today)
+// Set default dates (today and 1 year from today minus 1 day)
 function setDefaultDates() {
     const today = new Date();
-    const nextYear = new Date(today);
-    nextYear.setFullYear(nextYear.getFullYear() + 1);
-
     fromDateInput.value = formatDateForInput(today);
-    toDateInput.value = formatDateForInput(nextYear);
+    updateToDate();
+}
+
+// Calculate to date (1 year from from date minus 1 day)
+function updateToDate() {
+    const fromDate = new Date(fromDateInput.value);
+    const toDate = new Date(fromDate);
+    toDate.setFullYear(toDate.getFullYear() + 1);
+    toDate.setDate(toDate.getDate() - 1);
+    toDateInput.value = formatDateForInput(toDate);
 }
 
 // Format date for input field (YYYY-MM-DD)
@@ -176,7 +182,6 @@ function setupEventListeners() {
 
     regNumberInput.addEventListener('input', updatePreview);
     fromDateInput.addEventListener('change', updatePreview);
-    toDateInput.addEventListener('change', updatePreview);
     modelNumberInput.addEventListener('input', updatePreview);
     chassisNumberInput.addEventListener('input', updatePreview);
     engineSerialInput.addEventListener('input', updatePreview);
@@ -196,10 +201,7 @@ function setupEventListeners() {
 
     // From date change updates To date
     fromDateInput.addEventListener('change', () => {
-        const fromDate = new Date(fromDateInput.value);
-        const toDate = new Date(fromDate);
-        toDate.setFullYear(toDate.getFullYear() + 1);
-        toDateInput.value = formatDateForInput(toDate);
+        updateToDate();
         renderTemplate(currentTemplateId);
     });
 }
