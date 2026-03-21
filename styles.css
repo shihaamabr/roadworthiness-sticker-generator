@@ -289,87 +289,14 @@ body {
     background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
 }
 
-/* Sticker Preview */
+/* Sticker Preview Container */
 .sticker-preview {
     background-color: var(--md-sys-color-surface-container);
     padding: 8px;
     box-shadow: var(--md-sys-elevation-2);
 }
 
-.sticker {
-    width: 280px;
-    border: 2px solid #000;
-    font-family: Arial, sans-serif;
-    font-size: 11px;
-    background: #fff;
-    color: #000;
-}
-
-.sticker-header {
-    background-color: #000;
-    color: #fff;
-    text-align: center;
-    padding: 6px 8px;
-    font-size: 18px;
-    font-weight: bold;
-    letter-spacing: 4px;
-}
-
-.sticker-barcode-row {
-    display: flex;
-    align-items: center;
-    border-bottom: 1px solid #000;
-    padding: 4px 8px;
-    gap: 8px;
-}
-
-.sticker-barcode-row span {
-    font-size: 11px;
-    font-weight: 500;
-}
-
-.sticker-barcode-row svg {
-    height: 30px;
-    flex: 1;
-}
-
-.sticker-body {
-    display: flex;
-    border-bottom: 1px solid #000;
-}
-
-.sticker-info {
-    flex: 1;
-    padding: 6px 8px;
-    font-size: 10px;
-    line-height: 1.4;
-}
-
-.sticker-info .date-row {
-    margin-bottom: 2px;
-}
-
-.sticker-logo {
-    width: 80px;
-    border-left: 1px solid #000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 4px;
-}
-
-.garage-logo .logo-svg {
-    width: 70px;
-    height: 70px;
-}
-
-.sticker-footer {
-    text-align: center;
-    padding: 4px 8px;
-    font-size: 10px;
-    font-weight: 500;
-    border-top: 1px solid #000;
-}
+/* Sticker styles are loaded dynamically from templates/*.css */
 
 /* Snackbar */
 .snackbar {
@@ -480,10 +407,6 @@ body {
 
     .preview-container {
         padding: 16px;
-    }
-
-    .sticker {
-        width: 260px;
     }
 }
 

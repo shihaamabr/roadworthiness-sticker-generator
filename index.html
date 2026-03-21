@@ -38,7 +38,7 @@
                         <label class="form-label" for="garage">Select Garage</label>
                         <div class="select-wrapper">
                             <select id="garage" class="form-select" required>
-                                <option value="rs-auto">RS AUTO</option>
+                                <!-- Populated dynamically from templates/index.json -->
                             </select>
                             <span class="material-icons select-icon">expand_more</span>
                         </div>
@@ -48,7 +48,7 @@
                     <div class="form-group">
                         <label class="form-label" for="regNumber">Vehicle Registration Number</label>
                         <input type="text" id="regNumber" class="form-input"
-                               placeholder="e.g., A0F7930" required
+                               placeholder="X0X0000" required
                                pattern="[A-Za-z0-9]+" maxlength="10">
                         <span class="form-hint">Letters and numbers only</span>
                     </div>
@@ -69,28 +69,28 @@
                     <div class="form-group">
                         <label class="form-label" for="modelNumber">Model Number</label>
                         <input type="text" id="modelNumber" class="form-input"
-                               placeholder="e.g., 55S400-010C" required>
+                               placeholder="XXX000-000X" required>
                     </div>
 
                     <!-- Chassis Number -->
                     <div class="form-group">
                         <label class="form-label" for="chassisNumber">Chassis Number</label>
                         <input type="text" id="chassisNumber" class="form-input"
-                               placeholder="e.g., MH355S004DK117181" required>
+                               placeholder="XXXXXXXXXXXXXXXXX" required>
                     </div>
 
                     <!-- Engine Serial Number -->
                     <div class="form-group">
                         <label class="form-label" for="engineSerial">Engine Serial Number</label>
                         <input type="text" id="engineSerial" class="form-input"
-                               placeholder="e.g., 55S-118388" required>
+                               placeholder="XXX-XXXXXX" required>
                     </div>
 
                     <!-- Engine Capacity -->
                     <div class="form-group">
                         <label class="form-label" for="engineCapacity">Engine Capacity (CC)</label>
                         <input type="text" id="engineCapacity" class="form-input"
-                               placeholder="e.g., 135.000" required>
+                               placeholder="XXX.XXX" required>
                     </div>
 
                     <!-- Generate Button -->
@@ -109,45 +109,7 @@
                 </div>
                 <div class="preview-container">
                     <div id="stickerPreview" class="sticker-preview">
-                        <!-- Sticker will be rendered here -->
-                        <div class="sticker">
-                            <div class="sticker-header">
-                                <span id="previewRegNumber">X 0 X 0 0 0 0</span>
-                            </div>
-                            <div class="sticker-barcode-row">
-                                <span id="previewBarcodeNumber">0000000000</span>
-                                <svg id="previewBarcode"></svg>
-                            </div>
-                            <div class="sticker-body">
-                                <div class="sticker-info">
-                                    <div class="date-row">
-                                        <span><strong>From:</strong> <span id="previewFromDate">DD-MM-YYYY</span></span>
-                                    </div>
-                                    <div class="date-row">
-                                        <span><strong>To:</strong> <span id="previewToDate">DD-MM-YYYY</span></span>
-                                    </div>
-                                    <div id="previewModelNumber">XXXX-XXXXX</div>
-                                    <div id="previewChassisNumber">XXXXXXXXXXXXXXXXX</div>
-                                    <div id="previewEngineSerial">XXX-XXXXXX</div>
-                                    <div id="previewEngineCapacity">000.000</div>
-                                </div>
-                                <div class="sticker-logo">
-                                    <div id="garageLogo" class="garage-logo">
-                                        <svg viewBox="0 0 80 80" class="logo-svg">
-                                            <circle cx="40" cy="40" r="38" fill="none" stroke="#000" stroke-width="2"/>
-                                            <text x="40" y="18" text-anchor="middle" font-size="8" font-weight="bold">RS AUTO</text>
-                                            <text x="40" y="45" text-anchor="middle" font-size="24" font-weight="bold">S</text>
-                                            <path d="M20 50 Q40 35 60 50" fill="none" stroke="#000" stroke-width="2"/>
-                                            <text x="40" y="58" text-anchor="middle" font-size="6">P:0085037</text>
-                                            <text x="40" y="70" text-anchor="middle" font-size="8" font-weight="bold">MALDIVES</text>
-                                        </svg>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="sticker-footer">
-                                <span id="previewGarageInfo">RS AUTO, TEL: 775 8999</span>
-                            </div>
-                        </div>
+                        <!-- Sticker template loaded dynamically -->
                     </div>
                 </div>
             </div>

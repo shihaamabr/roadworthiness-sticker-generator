@@ -1,0 +1,73 @@
+/* Min. of Transport & Civil Aviation Template Styles */
+.sticker-motca {
+    width: 280px;
+    border: 2px solid #000;
+    font-family: Arial, sans-serif;
+    font-size: 11px;
+    background: #fff;
+    color: #000;
+}
+
+.sticker-motca .sticker-header {
+    background-color: #000;
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 8px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.sticker-motca .sticker-header .reg-number {
+    letter-spacing: 1px;
+}
+
+.sticker-motca .sticker-header .barcode-number {
+    font-size: 12px;
+}
+
+.sticker-motca .sticker-dates-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 4px 8px;
+    font-size: 10px;
+    border-bottom: 1px solid #000;
+}
+
+.sticker-motca .sticker-body {
+    display: flex;
+    border-bottom: 1px solid #000;
+}
+
+.sticker-motca .sticker-info {
+    flex: 1;
+    padding: 4px 8px;
+    font-size: 10px;
+    line-height: 1.4;
+}
+
+.sticker-motca .sticker-info .barcode {
+    height: 25px;
+    width: 100%;
+    margin-top: 4px;
+}
+
+.sticker-motca .sticker-values {
+    width: 80px;
+    padding: 4px 8px;
+    font-size: 10px;
+    font-weight: bold;
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 2px;
+}
+
+.sticker-motca .sticker-footer {
+    text-align: center;
+    padding: 4px 8px;
+    font-size: 9px;
+    font-weight: 500;
+}

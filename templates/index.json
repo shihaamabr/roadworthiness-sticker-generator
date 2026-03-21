@@ -1,0 +1,12 @@
+{
+  "templates": [
+    {
+      "id": "rs-auto",
+      "name": "RS AUTO"
+    },
+    {
+      "id": "motca",
+      "name": "Min. of Transport & Civil Aviation"
+    }
+  ]
+}

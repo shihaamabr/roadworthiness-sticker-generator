@@ -1,24 +1,12 @@
-// Garage Templates Configuration
-const garageTemplates = {
-    'rs-auto': {
-        name: 'RS AUTO',
-        phone: '775 8999',
-        logo: {
-            type: 'svg',
-            content: `
-                <svg viewBox="0 0 80 80" class="logo-svg">
-                    <circle cx="40" cy="40" r="38" fill="none" stroke="#000" stroke-width="2"/>
-                    <text x="40" y="18" text-anchor="middle" font-size="8" font-weight="bold">RS AUTO</text>
-                    <text x="40" y="45" text-anchor="middle" font-size="24" font-weight="bold">S</text>
-                    <path d="M20 50 Q40 35 60 50" fill="none" stroke="#000" stroke-width="2"/>
-                    <text x="40" y="58" text-anchor="middle" font-size="6">P:0085037</text>
-                    <text x="40" y="70" text-anchor="middle" font-size="8" font-weight="bold">MALDIVES</text>
-                </svg>
-            `
-        }
-    }
-    // Add more garage templates here as needed
+// Template cache
+const templateCache = {
+    html: {},
+    css: {}
 };
+
+// Current template ID
+let currentTemplateId = null;
+let currentBarcodeNumber = null;
 
 // DOM Elements
 const form = document.getElementById('stickerForm');
@@ -30,26 +18,114 @@ const modelNumberInput = document.getElementById('modelNumber');
 const chassisNumberInput = document.getElementById('chassisNumber');
 const engineSerialInput = document.getElementById('engineSerial');
 const engineCapacityInput = document.getElementById('engineCapacity');
-
-// Preview Elements
-const previewRegNumber = document.getElementById('previewRegNumber');
-const previewBarcodeNumber = document.getElementById('previewBarcodeNumber');
-const previewBarcode = document.getElementById('previewBarcode');
-const previewFromDate = document.getElementById('previewFromDate');
-const previewToDate = document.getElementById('previewToDate');
-const previewModelNumber = document.getElementById('previewModelNumber');
-const previewChassisNumber = document.getElementById('previewChassisNumber');
-const previewEngineSerial = document.getElementById('previewEngineSerial');
-const previewEngineCapacity = document.getElementById('previewEngineCapacity');
-const previewGarageInfo = document.getElementById('previewGarageInfo');
-const garageLogo = document.getElementById('garageLogo');
+const stickerPreview = document.getElementById('stickerPreview');
 
 // Initialize the application
-function init() {
+async function init() {
     setDefaultDates();
+    await loadTemplateList();
     setupEventListeners();
-    updatePreview();
-    generateBarcode();
+    generateBarcodeNumber();
+    await loadTemplate(garageSelect.value);
+}
+
+// Load template list from index.json
+async function loadTemplateList() {
+    try {
+        const response = await fetch('templates/index.json');
+        const data = await response.json();
+
+        garageSelect.innerHTML = '';
+        data.templates.forEach(template => {
+            const option = document.createElement('option');
+            option.value = template.id;
+            option.textContent = template.name;
+            garageSelect.appendChild(option);
+        });
+    } catch (error) {
+        console.error('Failed to load template list:', error);
+        showSnackbar('Failed to load templates', 'error');
+    }
+}
+
+// Load a specific template (HTML + CSS)
+async function loadTemplate(templateId) {
+    if (currentTemplateId === templateId && templateCache.html[templateId]) {
+        renderTemplate(templateId);
+        return;
+    }
+
+    try {
+        // Load HTML if not cached
+        if (!templateCache.html[templateId]) {
+            const htmlResponse = await fetch(`templates/${templateId}.html`);
+            templateCache.html[templateId] = await htmlResponse.text();
+        }
+
+        // Load CSS if not cached
+        if (!templateCache.css[templateId]) {
+            const cssResponse = await fetch(`templates/${templateId}.css`);
+            templateCache.css[templateId] = await cssResponse.text();
+
+            // Inject CSS into head
+            const styleId = `template-style-${templateId}`;
+            let styleEl = document.getElementById(styleId);
+            if (!styleEl) {
+                styleEl = document.createElement('style');
+                styleEl.id = styleId;
+                document.head.appendChild(styleEl);
+            }
+            styleEl.textContent = templateCache.css[templateId];
+        }
+
+        currentTemplateId = templateId;
+        renderTemplate(templateId);
+    } catch (error) {
+        console.error('Failed to load template:', error);
+        showSnackbar('Failed to load template', 'error');
+    }
+}
+
+// Render template with current form values
+function renderTemplate(templateId) {
+    const html = templateCache.html[templateId];
+    if (!html) return;
+
+    // Get current values - show empty placeholders if no input
+    const values = {
+        regNumber: regNumberInput.value ? formatRegNumber(regNumberInput.value) : 'X 0 X 0 0 0 0',
+        barcodeNumber: currentBarcodeNumber || 'XXXXXXXXXX',
+        fromDate: formatDateForDisplay(fromDateInput.value) || 'XX-XX-XXXX',
+        toDate: formatDateForDisplay(toDateInput.value) || 'XX-XX-XXXX',
+        modelNumber: modelNumberInput.value || 'XXX000-000X',
+        chassisNumber: chassisNumberInput.value || 'XXXXXXXXXXXXXXXXX',
+        engineSerial: engineSerialInput.value || 'XXX-XXXXXX',
+        engineCapacity: engineCapacityInput.value || 'XXX.XXX'
+    };
+
+    // Replace placeholders
+    let rendered = html;
+    for (const [key, value] of Object.entries(values)) {
+        rendered = rendered.replace(new RegExp(`{{${key}}}`, 'g'), value);
+    }
+
+    stickerPreview.innerHTML = rendered;
+
+    // Generate barcode
+    const barcodeEl = stickerPreview.querySelector('.barcode');
+    if (barcodeEl && currentBarcodeNumber) {
+        try {
+            JsBarcode(barcodeEl, currentBarcodeNumber, {
+                format: 'CODE128',
+                width: 1.5,
+                height: 25,
+                displayValue: false,
+                margin: 0
+            });
+        } catch (e) {
+            console.error('Barcode generation failed:', e);
+        }
+    }
 }
 
 // Set default dates (today and 1 year from today)
@@ -84,12 +160,19 @@ function formatRegNumber(regNumber) {
 
 // Generate a random barcode number (10 digits)
 function generateBarcodeNumber() {
-    return Math.floor(1000000000 + Math.random() * 9000000000).toString();
+    currentBarcodeNumber = Math.floor(1000000000 + Math.random() * 9000000000).toString();
 }
 
 // Setup event listeners
 function setupEventListeners() {
+    // Template change
+    garageSelect.addEventListener('change', async () => {
+        await loadTemplate(garageSelect.value);
+    });
+
     // Real-time preview updates
+    const updatePreview = () => renderTemplate(currentTemplateId);
+
     regNumberInput.addEventListener('input', updatePreview);
     fromDateInput.addEventListener('change', updatePreview);
     toDateInput.addEventListener('change', updatePreview);
@@ -97,7 +180,6 @@ function setupEventListeners() {
     chassisNumberInput.addEventListener('input', updatePreview);
     engineSerialInput.addEventListener('input', updatePreview);
     engineCapacityInput.addEventListener('input', updatePreview);
-    garageSelect.addEventListener('change', updatePreview);
 
     // Auto-uppercase for certain fields
     regNumberInput.addEventListener('input', (e) => {
@@ -117,51 +199,8 @@ function setupEventListeners() {
         const toDate = new Date(fromDate);
         toDate.setFullYear(toDate.getFullYear() + 1);
         toDateInput.value = formatDateForInput(toDate);
-        updatePreview();
+        renderTemplate(currentTemplateId);
     });
-}
-
-// Update the sticker preview
-function updatePreview() {
-    const garage = garageTemplates[garageSelect.value];
-
-    // Update registration number
-    const regNumber = regNumberInput.value || 'X0X0000';
-    previewRegNumber.textContent = formatRegNumber(regNumber);
-
-    // Update dates
-    previewFromDate.textContent = formatDateForDisplay(fromDateInput.value) || 'DD-MM-YYYY';
-    previewToDate.textContent = formatDateForDisplay(toDateInput.value) || 'DD-MM-YYYY';
-
-    // Update vehicle info
-    previewModelNumber.textContent = modelNumberInput.value || 'XXXX-XXXXX';
-    previewChassisNumber.textContent = chassisNumberInput.value || 'XXXXXXXXXXXXXXXXX';
-    previewEngineSerial.textContent = engineSerialInput.value || 'XXX-XXXXXX';
-    previewEngineCapacity.textContent = engineCapacityInput.value || '000.000';
-
-    // Update garage info
-    if (garage) {
-        previewGarageInfo.textContent = `${garage.name}, TEL: ${garage.phone}`;
-        garageLogo.innerHTML = garage.logo.content;
-    }
-}
-
-// Generate barcode
-function generateBarcode() {
-    const barcodeNumber = generateBarcodeNumber();
-    previewBarcodeNumber.textContent = barcodeNumber;
-
-    try {
-        JsBarcode(previewBarcode, barcodeNumber, {
-            format: 'CODE128',
-            width: 1.5,
-            height: 30,
-            displayValue: false,
-            margin: 0
-        });
-    } catch (e) {
-        console.error('Barcode generation failed:', e);
-    }
 }
 
 // Handle form submission
@@ -173,6 +212,13 @@ async function handleFormSubmit(e) {
     submitBtn.querySelector('.material-icons').textContent = 'autorenew';
 
     try {
+        // Generate new barcode for final PDF
+        generateBarcodeNumber();
+        renderTemplate(currentTemplateId);
+
+        // Wait for render
+        await new Promise(resolve => setTimeout(resolve, 100));
+
         await generatePDF();
         showSnackbar('Sticker generated successfully!', 'success');
     } catch (error) {
@@ -187,17 +233,15 @@ async function handleFormSubmit(e) {
 // Generate PDF
 async function generatePDF() {
     const { jsPDF } = window.jspdf;
-    const stickerElement = document.querySelector('.sticker');
+    const stickerElement = stickerPreview.querySelector('.sticker, [class^="sticker-"]');
 
-    // Generate a new barcode number for this sticker
-    generateBarcode();
-
-    // Wait for barcode to render
-    await new Promise(resolve => setTimeout(resolve, 100));
+    if (!stickerElement) {
+        throw new Error('No sticker element found');
+    }
 
     // Capture the sticker as an image
     const canvas = await html2canvas(stickerElement, {
-        scale: 3, // Higher resolution
+        scale: 3,
         backgroundColor: '#ffffff',
         useCORS: true,
         logging: false
@@ -206,7 +250,6 @@ async function generatePDF() {
     // Create PDF with sticker dimensions
     const imgData = canvas.toDataURL('image/png');
 
-    // Calculate dimensions (sticker is approximately 280px wide)
     const pdfWidth = 100; // mm
     const pdfHeight = (canvas.height / canvas.width) * pdfWidth;
 
@@ -216,7 +259,6 @@ async function generatePDF() {
         format: [pdfWidth + 10, pdfHeight + 10]
     });
 
-    // Center the sticker
     const x = 5;
     const y = 5;
 
@@ -226,7 +268,6 @@ async function generatePDF() {
     const regNumber = regNumberInput.value || 'sticker';
     const filename = `roadworthiness-${regNumber.replace(/\s/g, '')}-${Date.now()}.pdf`;
 
-    // Save the PDF
     pdf.save(filename);
 }
 
