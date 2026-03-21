@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roadworthiness Sticker Generator</title>
+
+    <!-- Material Design Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Google Fonts - Roboto -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- App Bar -->
+        <header class="app-bar">
+            <div class="app-bar-content">
+                <span class="material-icons">directions_car</span>
+                <h1>Roadworthiness Sticker Generator</h1>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="card form-card">
+                <div class="card-header">
+                    <span class="material-icons">edit_document</span>
+                    <h2>Vehicle Information</h2>
+                </div>
+
+                <form id="stickerForm">
+                    <!-- Garage Selection -->
+                    <div class="form-group">
+                        <label class="form-label" for="garage">Select Garage</label>
+                        <div class="select-wrapper">
+                            <select id="garage" class="form-select" required>
+                                <option value="rs-auto">RS AUTO</option>
+                            </select>
+                            <span class="material-icons select-icon">expand_more</span>
+                        </div>
+                    </div>
+
+                    <!-- Vehicle Registration -->
+                    <div class="form-group">
+                        <label class="form-label" for="regNumber">Vehicle Registration Number</label>
+                        <input type="text" id="regNumber" class="form-input"
+                               placeholder="e.g., A0F7930" required
+                               pattern="[A-Za-z0-9]+" maxlength="10">
+                        <span class="form-hint">Letters and numbers only</span>
+                    </div>
+
+                    <!-- Date Range -->
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="fromDate">From Date</label>
+                            <input type="date" id="fromDate" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="toDate">To Date</label>
+                            <input type="date" id="toDate" class="form-input" required>
+                        </div>
+                    </div>
+
+                    <!-- Model Number -->
+                    <div class="form-group">
+                        <label class="form-label" for="modelNumber">Model Number</label>
+                        <input type="text" id="modelNumber" class="form-input"
+                               placeholder="e.g., 55S400-010C" required>
+                    </div>
+
+                    <!-- Chassis Number -->
+                    <div class="form-group">
+                        <label class="form-label" for="chassisNumber">Chassis Number</label>
+                        <input type="text" id="chassisNumber" class="form-input"
+                               placeholder="e.g., MH355S004DK117181" required>
+                    </div>
+
+                    <!-- Engine Serial Number -->
+                    <div class="form-group">
+                        <label class="form-label" for="engineSerial">Engine Serial Number</label>
+                        <input type="text" id="engineSerial" class="form-input"
+                               placeholder="e.g., 55S-118388" required>
+                    </div>
+
+                    <!-- Static Value (Read-only for now) -->
+                    <div class="form-group">
+                        <label class="form-label" for="staticValue">Value</label>
+                        <input type="text" id="staticValue" class="form-input"
+                               value="135.000" readonly>
+                        <span class="form-hint">Static value</span>
+                    </div>
+
+                    <!-- Generate Button -->
+                    <button type="submit" class="btn btn-primary">
+                        <span class="material-icons">picture_as_pdf</span>
+                        Generate Sticker
+                    </button>
+                </form>
+            </div>
+
+            <!-- Preview Card -->
+            <div class="card preview-card">
+                <div class="card-header">
+                    <span class="material-icons">preview</span>
+                    <h2>Sticker Preview</h2>
+                </div>
+                <div class="preview-container">
+                    <div id="stickerPreview" class="sticker-preview">
+                        <!-- Sticker will be rendered here -->
+                        <div class="sticker">
+                            <div class="sticker-header">
+                                <span id="previewRegNumber">A 0 F 7 9 3 0</span>
+                            </div>
+                            <div class="sticker-barcode-row">
+                                <span id="previewBarcodeNumber">1162603748</span>
+                                <svg id="previewBarcode"></svg>
+                            </div>
+                            <div class="sticker-body">
+                                <div class="sticker-info">
+                                    <div class="date-row">
+                                        <span><strong>From:</strong> <span id="previewFromDate">21-03-2026</span></span>
+                                    </div>
+                                    <div class="date-row">
+                                        <span><strong>To:</strong> <span id="previewToDate">20-03-2027</span></span>
+                                    </div>
+                                    <div id="previewModelNumber">55S400-010C</div>
+                                    <div id="previewChassisNumber">MH355S004DK117181</div>
+                                    <div id="previewEngineSerial">55S-118388</div>
+                                    <div id="previewStaticValue">135.000</div>
+                                </div>
+                                <div class="sticker-logo">
+                                    <div id="garageLogo" class="garage-logo">
+                                        <svg viewBox="0 0 80 80" class="logo-svg">
+                                            <circle cx="40" cy="40" r="38" fill="none" stroke="#000" stroke-width="2"/>
+                                            <text x="40" y="18" text-anchor="middle" font-size="8" font-weight="bold">RS AUTO</text>
+                                            <text x="40" y="45" text-anchor="middle" font-size="24" font-weight="bold">S</text>
+                                            <path d="M20 50 Q40 35 60 50" fill="none" stroke="#000" stroke-width="2"/>
+                                            <text x="40" y="58" text-anchor="middle" font-size="6">P:0085037</text>
+                                            <text x="40" y="70" text-anchor="middle" font-size="8" font-weight="bold">MALDIVES</text>
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="sticker-footer">
+                                <span id="previewGarageInfo">RS AUTO, TEL: 775 8999</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Snackbar for notifications -->
+        <div id="snackbar" class="snackbar"></div>
+    </div>
+
+    <!-- JsBarcode for barcode generation -->
+    <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"></script>
+    <!-- jsPDF for PDF generation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <!-- html2canvas for capturing the sticker -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+    <script src="app.js"></script>
+</body>
+</html>
