@@ -244,28 +244,30 @@ async function generatePDF() {
 
     // Capture the sticker as an image
     const canvas = await html2canvas(stickerElement, {
-        scale: 3,
+        scale: 4,
         backgroundColor: '#ffffff',
         useCORS: true,
         logging: false
     });
 
-    // Create PDF with sticker dimensions
+    // Create PDF with A4 dimensions
     const imgData = canvas.toDataURL('image/png');
 
-    const pdfWidth = 100; // mm
-    const pdfHeight = (canvas.height / canvas.width) * pdfWidth;
-
     const pdf = new jsPDF({
-        orientation: pdfHeight > pdfWidth ? 'portrait' : 'landscape',
+        orientation: 'portrait',
         unit: 'mm',
-        format: [pdfWidth + 10, pdfHeight + 10]
+        format: 'a4'
     });
 
-    const x = 5;
-    const y = 5;
+    // Sticker size on A4 (approximately 55mm wide)
+    const stickerWidth = 55;
+    const stickerHeight = (canvas.height / canvas.width) * stickerWidth;
 
-    pdf.addImage(imgData, 'PNG', x, y, pdfWidth, pdfHeight);
+    // Position at top-left with small margin
+    const x = 10;
+    const y = 10;
+
+    pdf.addImage(imgData, 'PNG', x, y, stickerWidth, stickerHeight);
 
     // Generate filename
     const regNumber = regNumberInput.value || 'sticker';
