@@ -309,8 +309,14 @@ async function setupPdfImport() {
         try {
             const text = await extractTextFromPdf(file);
             const data = parseRegistrationData(text);
-            fillFormWithData(data);
-            showSnackbar('Data imported successfully!', 'success');
+
+            // Check if any data was extracted
+            if (Object.keys(data).length === 0) {
+                showSnackbar('Failed to import data. Make sure PDF was exported from SIMS portal.', 'error');
+            } else {
+                fillFormWithData(data);
+                showSnackbar('Data imported successfully!', 'success');
+            }
         } catch (error) {
             console.error('PDF import failed:', error);
             showSnackbar('Failed to import PDF', 'error');

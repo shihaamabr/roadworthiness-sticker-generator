@@ -42,7 +42,42 @@
         </header>
 
         <!-- Main Content -->
-        <main class="main-content">
+        <main class="main-content three-column">
+            <!-- Roadworthiness Details Card -->
+            <div class="card form-card">
+                <div class="card-header">
+                    <span class="material-icons">fact_check</span>
+                    <h2>Roadworthiness Details</h2>
+                </div>
+
+                <div class="card-body">
+                    <!-- Garage Selection -->
+                    <div class="form-group">
+                        <label class="form-label" for="garage">Select Garage</label>
+                        <div class="select-wrapper">
+                            <select id="garage" class="form-select" required form="stickerForm">
+                                <!-- Populated dynamically from templates/index.json -->
+                            </select>
+                            <span class="material-icons select-icon">expand_more</span>
+                        </div>
+                    </div>
+
+                    <!-- From Date -->
+                    <div class="form-group">
+                        <label class="form-label" for="fromDate">From Date</label>
+                        <input type="date" id="fromDate" class="form-input" required form="stickerForm">
+                    </div>
+
+                    <!-- To Date -->
+                    <div class="form-group">
+                        <label class="form-label" for="toDate">To Date</label>
+                        <input type="date" id="toDate" class="form-input" readonly form="stickerForm">
+                        <span class="form-hint">Auto-calculated</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Vehicle Information Card -->
             <div class="card form-card">
                 <div class="card-header">
                     <span class="material-icons">edit_document</span>
@@ -50,35 +85,6 @@
                 </div>
 
                 <form id="stickerForm">
-                    <!-- Garage Selection -->
-                    <div class="form-group">
-                        <label class="form-label" for="garage">Select Garage</label>
-                        <div class="select-wrapper">
-                            <select id="garage" class="form-select" required>
-                                <!-- Populated dynamically from templates/index.json -->
-                            </select>
-                            <span class="material-icons select-icon">expand_more</span>
-                        </div>
-                    </div>
-
-                    <!-- Date Range -->
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label class="form-label" for="fromDate">From Date</label>
-                            <input type="date" id="fromDate" class="form-input" required>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label" for="toDate">To Date</label>
-                            <input type="date" id="toDate" class="form-input" readonly>
-                            <span class="form-hint">Auto-calculated</span>
-                        </div>
-                    </div>
-
-                    <!-- Divider -->
-                    <div class="form-divider">
-                        <span>Vehicle Details</span>
-                    </div>
-
                     <!-- Import from PDF -->
                     <div class="form-group">
                         <label class="form-label">Import from Registration PDF</label>
@@ -87,7 +93,7 @@
                             Import PDF
                             <input type="file" id="pdfInput" accept=".pdf" hidden>
                         </label>
-                        <span class="form-hint">Upload vehicle registration PDF to auto-fill</span>
+                        <span class="form-hint">Get your PDF from <a href="https://sims.transport.gov.mv/" target="_blank" rel="noopener">SIMS portal</a></span>
                     </div>
 
                     <!-- Divider -->
@@ -101,7 +107,6 @@
                         <input type="text" id="regNumber" class="form-input"
                                placeholder="X0X0000" required
                                pattern="[A-Za-z0-9]+" maxlength="10">
-                        <span class="form-hint">Letters and numbers only</span>
                     </div>
 
                     <!-- Model Number -->
