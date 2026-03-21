@@ -120,7 +120,8 @@ function renderTemplate(templateId) {
                 width: 1.5,
                 height: 25,
                 displayValue: false,
-                margin: 0
+                margin: 0,
+                background: 'transparent'
             });
         } catch (e) {
             console.error('Barcode generation failed:', e);
@@ -289,9 +290,19 @@ function showSnackbar(message, type = '') {
 function setupDisclaimer() {
     const modal = document.getElementById('disclaimerModal');
     const closeBtn = document.getElementById('disclaimerClose');
+    const dontAskCheckbox = document.getElementById('dontAskAgain');
+
+    // Check if user previously chose "don't ask again"
+    if (localStorage.getItem('disclaimerAccepted') === 'true') {
+        modal.classList.add('hidden');
+        return;
+    }
 
     if (closeBtn && modal) {
         closeBtn.addEventListener('click', () => {
+            if (dontAskCheckbox && dontAskCheckbox.checked) {
+                localStorage.setItem('disclaimerAccepted', 'true');
+            }
             modal.classList.add('hidden');
         });
     }
