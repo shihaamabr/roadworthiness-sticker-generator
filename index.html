@@ -61,15 +61,6 @@
                         </div>
                     </div>
 
-                    <!-- Vehicle Registration -->
-                    <div class="form-group">
-                        <label class="form-label" for="regNumber">Vehicle Registration Number</label>
-                        <input type="text" id="regNumber" class="form-input"
-                               placeholder="X0X0000" required
-                               pattern="[A-Za-z0-9]+" maxlength="10">
-                        <span class="form-hint">Letters and numbers only</span>
-                    </div>
-
                     <!-- Date Range -->
                     <div class="form-row">
                         <div class="form-group">
@@ -81,6 +72,36 @@
                             <input type="date" id="toDate" class="form-input" readonly>
                             <span class="form-hint">Auto-calculated</span>
                         </div>
+                    </div>
+
+                    <!-- Divider -->
+                    <div class="form-divider">
+                        <span>Vehicle Details</span>
+                    </div>
+
+                    <!-- Import from PDF -->
+                    <div class="form-group">
+                        <label class="form-label">Import from Registration PDF</label>
+                        <label class="btn btn-outline" id="importPdfBtn">
+                            <span class="material-icons">upload_file</span>
+                            Import PDF
+                            <input type="file" id="pdfInput" accept=".pdf" hidden>
+                        </label>
+                        <span class="form-hint">Upload vehicle registration PDF to auto-fill</span>
+                    </div>
+
+                    <!-- Divider -->
+                    <div class="form-divider">
+                        <span>or</span>
+                    </div>
+
+                    <!-- Vehicle Registration -->
+                    <div class="form-group">
+                        <label class="form-label" for="regNumber">Vehicle Registration Number</label>
+                        <input type="text" id="regNumber" class="form-input"
+                               placeholder="X0X0000" required
+                               pattern="[A-Za-z0-9]+" maxlength="10">
+                        <span class="form-hint">Letters and numbers only</span>
                     </div>
 
                     <!-- Model Number -->
@@ -137,6 +158,8 @@
         <div id="snackbar" class="snackbar"></div>
     </div>
 
+    <!-- PDF.js for PDF parsing -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
     <!-- JsBarcode for barcode generation -->
     <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"></script>
     <!-- jsPDF for PDF generation -->

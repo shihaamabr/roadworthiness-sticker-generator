@@ -342,6 +342,26 @@ body {
     gap: 16px;
 }
 
+/* Form Divider */
+.form-divider {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: var(--md-sys-color-outline);
+    font-size: 0.875rem;
+}
+
+.form-divider::before,
+.form-divider::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid var(--md-sys-color-outline-variant);
+}
+
+.form-divider span {
+    padding: 0 16px;
+}
+
 /* Button Styles */
 .btn {
     font: var(--md-sys-typescale-label-large);
@@ -370,6 +390,23 @@ body {
 
 .btn-primary:active {
     transform: scale(0.98);
+}
+
+.btn-outline {
+    background-color: transparent;
+    color: var(--md-sys-color-primary);
+    border: 2px solid var(--md-sys-color-primary);
+    cursor: pointer;
+}
+
+.btn-outline:hover {
+    background-color: var(--md-sys-color-primary);
+    color: var(--md-sys-color-on-primary);
+}
+
+.btn-outline.loading {
+    pointer-events: none;
+    opacity: 0.7;
 }
 
 .btn .material-icons {

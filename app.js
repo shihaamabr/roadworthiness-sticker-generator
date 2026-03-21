@@ -288,6 +288,106 @@ function showSnackbar(message, type = '') {
     }, 3000);
 }
 
+// Set PDF.js worker
+if (typeof pdfjsLib !== 'undefined') {
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+}
+
+// Handle PDF import
+async function setupPdfImport() {
+    const pdfInput = document.getElementById('pdfInput');
+    const importBtn = document.getElementById('importPdfBtn');
+
+    if (!pdfInput || !importBtn) return;
+
+    pdfInput.addEventListener('change', async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        importBtn.classList.add('loading');
+
+        try {
+            const text = await extractTextFromPdf(file);
+            const data = parseRegistrationData(text);
+            fillFormWithData(data);
+            showSnackbar('Data imported successfully!', 'success');
+        } catch (error) {
+            console.error('PDF import failed:', error);
+            showSnackbar('Failed to import PDF', 'error');
+        } finally {
+            importBtn.classList.remove('loading');
+            pdfInput.value = ''; // Reset input
+        }
+    });
+}
+
+// Extract text from PDF using PDF.js
+async function extractTextFromPdf(file) {
+    const arrayBuffer = await file.arrayBuffer();
+    const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+
+    let fullText = '';
+    for (let i = 1; i <= pdf.numPages; i++) {
+        const page = await pdf.getPage(i);
+        const textContent = await page.getTextContent();
+        const pageText = textContent.items.map(item => item.str).join(' ');
+        fullText += pageText + '\n';
+    }
+
+    return fullText;
+}
+
+// Parse registration data from extracted text
+function parseRegistrationData(text) {
+    const data = {};
+
+    // Registry Number
+    const regMatch = text.match(/Registry Number\s*([A-Z0-9]+)/i);
+    if (regMatch) data.regNumber = regMatch[1];
+
+    // Model Number
+    const modelMatch = text.match(/Model Number\s*([A-Z0-9\-\.]+)/i);
+    if (modelMatch) data.modelNumber = modelMatch[1];
+
+    // Chassis Number
+    const chassisMatch = text.match(/Chassis Number\s*([A-Z0-9]+)/i);
+    if (chassisMatch) data.chassisNumber = chassisMatch[1];
+
+    // Engine Number/Motor Serial No
+    const engineMatch = text.match(/Engine Number\/Motor Serial No\s*([A-Z0-9\-]+)/i);
+    if (engineMatch) data.engineSerial = engineMatch[1];
+
+    // Engine/Motor Capacity
+    const capacityMatch = text.match(/Engine\/Motor Capacity\s*(\d+)/i);
+    if (capacityMatch) data.engineCapacity = capacityMatch[1] + '.000';
+
+    return data;
+}
+
+// Fill form with parsed data
+function fillFormWithData(data) {
+    if (data.regNumber) {
+        regNumberInput.value = data.regNumber;
+    }
+    if (data.modelNumber) {
+        modelNumberInput.value = data.modelNumber;
+    }
+    if (data.chassisNumber) {
+        chassisNumberInput.value = data.chassisNumber;
+    }
+    if (data.engineSerial) {
+        engineSerialInput.value = data.engineSerial;
+    }
+    if (data.engineCapacity) {
+        engineCapacityInput.value = data.engineCapacity;
+    }
+
+    // Update preview
+    if (currentTemplateId) {
+        renderTemplate(currentTemplateId);
+    }
+}
+
 // Handle disclaimer modal
 function setupDisclaimer() {
     const modal = document.getElementById('disclaimerModal');
@@ -313,5 +413,6 @@ function setupDisclaimer() {
 // Initialize when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
     setupDisclaimer();
+    setupPdfImport();
     init();
 });
