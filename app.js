@@ -285,5 +285,20 @@ function showSnackbar(message, type = '') {
     }, 3000);
 }
 
+// Handle disclaimer modal
+function setupDisclaimer() {
+    const modal = document.getElementById('disclaimerModal');
+    const closeBtn = document.getElementById('disclaimerClose');
+
+    if (closeBtn && modal) {
+        closeBtn.addEventListener('click', () => {
+            modal.classList.add('hidden');
+        });
+    }
+}
+
 // Initialize when DOM is ready
-document.addEventListener('DOMContentLoaded', init);
+document.addEventListener('DOMContentLoaded', () => {
+    setupDisclaimer();
+    init();
+});
