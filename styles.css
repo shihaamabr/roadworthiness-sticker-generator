@@ -211,9 +211,23 @@ body {
     gap: 12px;
 }
 
+.app-bar-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
 .app-bar h1 {
     font: var(--md-sys-typescale-headline-medium);
     font-weight: 500;
+}
+
+.app-bar .tagline {
+    font-size: 0.8rem;
+    font-style: italic;
+    color: var(--md-sys-color-outline);
+    margin: 0;
+    line-height: 1.3;
 }
 
 .app-bar .material-icons {
@@ -557,6 +571,10 @@ body {
     .app-bar h1 {
         font-size: 1.25rem;
     }
+
+    .app-bar .tagline {
+        font-size: 0.7rem;
+    }
 }
 
 @media (max-width: 600px) {
@@ -566,6 +584,10 @@ body {
 
     .app-bar h1 {
         font-size: 1.1rem;
+    }
+
+    .app-bar .tagline {
+        display: none;
     }
 
     .main-content {

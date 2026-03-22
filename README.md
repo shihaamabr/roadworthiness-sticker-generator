@@ -1,5 +1,7 @@
 # Roadworthiness Sticker Generator
 
+*Roadworthy stickers for unworthy roads - if they can't fix the potholes, they can't spot the difference*
+
 > **Legal Disclaimer:** For legal reasons, this is a **joke**. This tool is for educational and entertainment purposes only. Do not use generated stickers for any official or fraudulent purposes.
 
 ---
