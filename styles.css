@@ -235,6 +235,11 @@ body {
     color: var(--md-sys-color-primary);
 }
 
+.app-bar .app-logo {
+    width: 64px;
+    height: 64px;
+}
+
 .app-bar .git-link {
     margin-left: auto;
     display: flex;
