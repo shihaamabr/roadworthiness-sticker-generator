@@ -4,6 +4,8 @@
 
 > **Legal Disclaimer:** For legal reasons, this is a **joke**. This tool is for educational and entertainment purposes only. Do not use generated stickers for any official or fraudulent purposes.
 
+**[Try it out](https://rsg.shihaam.me/)**
+
 ---
 
 A web-based tool for generating vehicle roadworthiness stickers.
