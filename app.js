@@ -10,7 +10,8 @@ let currentBarcodeNumber = null;
 
 // DOM Elements
 const form = document.getElementById('stickerForm');
-const garageSelect = document.getElementById('garage');
+const garageSelectContainer = document.getElementById('garageSelect');
+const garageSelectInput = document.getElementById('garage');
 const regNumberInput = document.getElementById('regNumber');
 const fromDateInput = document.getElementById('fromDate');
 const toDateInput = document.getElementById('toDate');
@@ -25,8 +26,9 @@ async function init() {
     setDefaultDates();
     await loadTemplateList();
     setupEventListeners();
+    setupCustomSelect();
     generateBarcodeNumber();
-    await loadTemplate(garageSelect.value);
+    await loadTemplate(garageSelectInput.value);
 }
 
 // Load template list from index.json
@@ -35,12 +37,24 @@ async function loadTemplateList() {
         const response = await fetch('templates/index.json');
         const data = await response.json();
 
-        garageSelect.innerHTML = '';
-        data.templates.forEach(template => {
-            const option = document.createElement('option');
-            option.value = template.id;
+        const optionsContainer = garageSelectContainer.querySelector('.custom-select-options');
+        const valueDisplay = garageSelectContainer.querySelector('.custom-select-value');
+        optionsContainer.innerHTML = '';
+
+        data.templates.forEach((template, index) => {
+            const option = document.createElement('div');
+            option.className = 'custom-select-option';
+            option.dataset.value = template.id;
             option.textContent = template.name;
-            garageSelect.appendChild(option);
+
+            if (index === 0) {
+                option.classList.add('selected');
+                valueDisplay.textContent = template.name;
+                valueDisplay.classList.remove('placeholder');
+                garageSelectInput.value = template.id;
+            }
+
+            optionsContainer.appendChild(option);
         });
     } catch (error) {
         console.error('Failed to load template list:', error);
@@ -170,13 +184,58 @@ function generateBarcodeNumber() {
     currentBarcodeNumber = Math.floor(1000000000 + Math.random() * 9000000000).toString();
 }
 
-// Setup event listeners
-function setupEventListeners() {
-    // Template change
-    garageSelect.addEventListener('change', async () => {
-        await loadTemplate(garageSelect.value);
+// Setup custom select dropdown
+function setupCustomSelect() {
+    const trigger = garageSelectContainer.querySelector('.custom-select-trigger');
+    const optionsContainer = garageSelectContainer.querySelector('.custom-select-options');
+    const valueDisplay = garageSelectContainer.querySelector('.custom-select-value');
+
+    // Toggle dropdown on trigger click
+    trigger.addEventListener('click', (e) => {
+        e.stopPropagation();
+        garageSelectContainer.classList.toggle('open');
     });
 
+    // Handle option selection
+    optionsContainer.addEventListener('click', async (e) => {
+        const option = e.target.closest('.custom-select-option');
+        if (!option) return;
+
+        // Update selected state
+        optionsContainer.querySelectorAll('.custom-select-option').forEach(opt => {
+            opt.classList.remove('selected');
+        });
+        option.classList.add('selected');
+
+        // Update display and hidden input
+        valueDisplay.textContent = option.textContent;
+        valueDisplay.classList.remove('placeholder');
+        garageSelectInput.value = option.dataset.value;
+
+        // Close dropdown
+        garageSelectContainer.classList.remove('open');
+
+        // Load the selected template
+        await loadTemplate(option.dataset.value);
+    });
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!garageSelectContainer.contains(e.target)) {
+            garageSelectContainer.classList.remove('open');
+        }
+    });
+
+    // Close on escape key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            garageSelectContainer.classList.remove('open');
+        }
+    });
+}
+
+// Setup event listeners
+function setupEventListeners() {
     // Real-time preview updates
     const updatePreview = () => renderTemplate(currentTemplateId);
 

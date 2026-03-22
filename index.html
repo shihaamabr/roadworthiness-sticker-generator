@@ -60,12 +60,16 @@
                 <div class="card-body">
                     <!-- Garage Selection -->
                     <div class="form-group">
-                        <label class="form-label" for="garage">Select Garage</label>
-                        <div class="select-wrapper">
-                            <select id="garage" class="form-select" required form="stickerForm">
+                        <label class="form-label">Select Garage</label>
+                        <div class="custom-select" id="garageSelect">
+                            <div class="custom-select-trigger">
+                                <span class="custom-select-value">Select a garage...</span>
+                                <span class="material-icons custom-select-icon">expand_more</span>
+                            </div>
+                            <div class="custom-select-options">
                                 <!-- Populated dynamically from templates/index.json -->
-                            </select>
-                            <span class="material-icons select-icon">expand_more</span>
+                            </div>
+                            <input type="hidden" id="garage" name="garage" required form="stickerForm">
                         </div>
                     </div>
 
