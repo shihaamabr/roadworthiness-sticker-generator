@@ -1,0 +1,74 @@
+/* LITUS Template Styles */
+.sticker-litus {
+    width: 280px;
+    border: 1px solid #000;
+    font-family: Arial, sans-serif;
+    font-size: 11px;
+    background: #fff;
+    color: #000;
+}
+
+.sticker-litus .sticker-header {
+    background-color: #000;
+    color: #fff;
+    text-align: center;
+    padding: 4px 8px;
+    font-size: 16px;
+    font-weight: bold;
+    letter-spacing: 6px;
+}
+
+.sticker-litus .sticker-barcode-row {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #000;
+    padding: 2px 0 2px 6px;
+    gap: 6px;
+    background: #fff;
+}
+
+.sticker-litus .sticker-barcode-row .barcode-number {
+    font-size: 11px;
+    font-weight: bold;
+}
+
+.sticker-litus .sticker-barcode-row .barcode {
+    height: 24px;
+    flex: 1;
+}
+
+.sticker-litus .sticker-body {
+    display: flex;
+    border-bottom: 1px solid #000;
+}
+
+.sticker-litus .sticker-info {
+    flex: 1;
+    padding: 4px 6px;
+    font-size: 10px;
+    line-height: 1.3;
+    border-right: 1px solid #000;
+}
+
+.sticker-litus .sticker-info .date-row {
+    margin-bottom: 0;
+}
+
+.sticker-litus .sticker-logo {
+    width: 85px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.sticker-litus .sticker-logo .logo-img {
+    width: 100%;
+    height: auto;
+}
+
+.sticker-litus .sticker-footer {
+    text-align: center;
+    padding: 3px 8px;
+    font-size: 10px;
+    font-weight: bold;
+}
